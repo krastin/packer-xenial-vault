@@ -34,12 +34,18 @@ control 'os-family-version' do
   end
 end
 
-control 'consul' do
-  describe file('/usr/local/bin/consul') do
+control 'vault' do
+  describe file('/usr/local/bin/vault') do
     it { should exist }
     it { should be_file }
     it { should_not be_directory }
     it { should be_owned_by 'root' }
-    its('mode') { should cmp '00755' }
+    its('mode') { should cmp '0755' }
+  end
+  describe file('/etc/vault.d/vault.hcl') do
+    it { should exist }
+    it { should be_file }
+    it { should_not be_directory }
+    it { should be_owned_by 'vault' }
   end
 end

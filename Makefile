@@ -8,7 +8,7 @@ xenial-vault-vbox.box: template.json scripts/provision.sh http/preseed.cfg
 	vagrant box add ./xenial-vault-vbox.box  --name xenial-vault
 
 test: xenial-vault-vbox.box
-	bundle exec kitchen test vbox
+	bundle exec kitchen test default-krastin-xenial-vault
 
 .PHONY: clean
 clean:
