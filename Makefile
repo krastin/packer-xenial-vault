@@ -1,3 +1,8 @@
+# check if needed binaries exist
+EXECUTABLES = curl jq sort egrep tail
+K := $(foreach exec,$(EXECUTABLES),\
+        $(if $(shell which $(exec)),some string,$(error "No $(exec) in PATH")))
+
 # if no version given, use the lates open source one
 ifndef $VERSION
     $(warning vault version undefined - assuming latest oss version)
