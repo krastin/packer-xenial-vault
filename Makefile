@@ -5,8 +5,8 @@ K := $(foreach exec,$(EXECUTABLES),\
 
 # if no version given, use the lates open source one
 ifndef $VERSION
-    $(warning vault version undefined - assuming latest oss version)
     VERSION = $(shell curl -sL https://releases.hashicorp.com/vault/index.json | jq -r '.versions[].version' | sort -V | egrep -v 'beta|rc|alpha|ent' | tail -1)
+	$(warning vault version undefined - assuming latest oss version v.${VERSION})
 endif
 
 default: all
