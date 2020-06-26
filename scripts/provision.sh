@@ -58,7 +58,9 @@ apt-get autoremove -y
 apt-get clean
 
 # Install Vault
-VERSION=`curl -sL https://releases.hashicorp.com/vault/index.json | jq -r '.versions[].version' | sort -V | egrep -v 'beta|rc|alpha' | tail -1`
+if [ -z "$VERSION" ]; then
+  VERSION=`curl -sL https://releases.hashicorp.com/vault/index.json | jq -r '.versions[].version' | sort -V | egrep -v 'beta|rc|alpha' | tail -1`
+fi
 which vault || {
   cd /usr/local/bin
   wget https://releases.hashicorp.com/vault/${VERSION}/vault_${VERSION}_linux_amd64.zip

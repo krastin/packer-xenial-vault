@@ -67,6 +67,52 @@ bundle exec kitchen verify
 bundle exec kitchen destroy
 ```
 
+# How to publish
+
+```
+krastin@Krastins-MBP $ vagrant cloud auth whoami
+In a moment we will ask for your username and password to HashiCorp's
+Vagrant Cloud. After authenticating, we will store an access token locally on
+disk. Your login details will be transmitted over a secure connection, and
+are never stored on disk locally.
+
+If you do not have an Vagrant Cloud account, sign up at
+https://www.vagrantcloud.com
+
+Vagrant Cloud username or email: krastin
+Password (will be hidden):
+Token description (Defaults to "Vagrant login from Krastins-MBP.lan"):
+You are now logged in.
+Currently logged in as krastin
+
+krastin@Krastins-MBP $ vagrant cloud auth whoami
+
+Currently logged in as krastin
+
+krastin@Krastins-MBP $ export VERSION=1.4.0
+krastin@Krastins-MBP $ vagrant cloud publish --box-version $VERSION --force --release krastin/xenial-vault $VERSION virtualbox xenial-vault-$VERSION.box
+You are about to publish a box on Vagrant Cloud with the following options:
+krastin/xenial-vault:   (v1.4.0) for provider 'virtualbox'
+Automatic Release:     true
+==> cloud: Creating a box entry...
+==> cloud: Creating a version entry...
+==> cloud: Creating a provider entry...
+==> cloud: Uploading provider with file /Users/krastin/workspace/packer-xenial-vault/xenial-vault-1.4.0.box
+==> cloud: Releasing box...
+Complete! Published krastin/xenial-vault
+tag:             krastin/xenial-vault
+username:        krastin
+name:            xenial-vault
+private:         false
+downloads:       0
+created_at:      2020-06-26T14:14:50.626+02:00
+updated_at:      2020-06-26T14:19:13.912+02:00
+current_version: 1.4.0
+providers:       virtualbox
+old_versions:    ...
+krastin@Krastins-MBP $
+```
+
 # Purpose
 
 This repository attempts to store the minimum amount of code that is required to create a:
