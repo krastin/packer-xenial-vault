@@ -35,4 +35,4 @@ test: xenial-vault-${VERSION}.box
 clean:
 	-bundle exec kitchen destroy
 	-vagrant box remove -f xenial-vault --provider virtualbox
-	-rm -fr output-*/ *.box```
+	-rm -fr output-*/ *.box
