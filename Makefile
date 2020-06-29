@@ -20,7 +20,13 @@ xenial-vault-${VERSION}.box: template.json scripts/provision.sh http/preseed.cfg
 	#vagrant box add --force --name xenial-vault --box-version ${VERSION} ./xenial-vault-${VERSION}.box  
 
 publish: xenial-vault-${VERSION}.box
+ifneq (,$(findstring ent,$(VERSION)))
+	@echo publishing ENT version to krastin/xenial-vault-enterprise
+	vagrant cloud publish --box-version $(firstword $(subst +, ,$(VERSION))) --force --release krastin/xenial-vault-enterprise $(firstword $(subst +, ,$(VERSION))) virtualbox xenial-vault-${VERSION}.box
+else
+	@echo publishing OSS version to krastin/xenial-vault
 	vagrant cloud publish --box-version ${VERSION} --force --release krastin/xenial-vault ${VERSION} virtualbox xenial-vault-${VERSION}.box
+endif
 
 test: xenial-vault-${VERSION}.box
 	bundle exec kitchen test default-krastin-xenial-vault
