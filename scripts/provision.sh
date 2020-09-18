@@ -69,8 +69,7 @@ which vault || {
 
 chown root:root /usr/local/bin/vault
 mkdir /etc/vault.d
-touch /etc/vault.d/vault.hcl
-chmod 640 /etc/vault.d/*.hcl
+chmod 640 -R /etc/vault.d/
 # Add autocomplete
 vault -autocomplete-install
 complete -C /usr/local/bin/vault vault
@@ -89,7 +88,7 @@ Description="HashiCorp Vault - A tool for managing secrets"
 Documentation=https://www.vaultproject.io/docs/
 Requires=network-online.target
 After=network-online.target
-ConditionFileNotEmpty=/etc/vault.d/vault.hcl
+ConditionDirectoryNotEmpty=/etc/vault.d/
 StartLimitIntervalSec=60
 StartLimitBurst=3
 
@@ -105,7 +104,7 @@ AmbientCapabilities=CAP_IPC_LOCK
 Capabilities=CAP_IPC_LOCK+ep
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 NoNewPrivileges=yes
-ExecStart=/usr/local/bin/vault server -config=/etc/vault.d/vault.hcl
+ExecStart=/usr/local/bin/vault server -config=/etc/vault.d/
 ExecReload=/bin/kill --signal HUP $MAINPID
 KillMode=process
 KillSignal=SIGINT
@@ -121,16 +120,8 @@ LimitMEMLOCK=infinity
 [Install]
 WantedBy=multi-user.target
 EOF
-
-cat <<EOF >> /etc/vault.d/vault.hcl
-listener "tcp" {
-  address       = "0.0.0.0:8200"
-}
-ui = true
-EOF
-
+systemctl daemon-reload
 systemctl enable vault
-
 
 # Removing leftover leases and persistent rules
 echo "cleaning up dhcp leases"
